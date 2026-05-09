@@ -32,7 +32,7 @@ export const deleteSubject = async (id: string) => {
     return response.data
 }
 
-export const SubjectStats = async (id: string) => {
+export const getSubjectStats = async (id: string) => {
 
     const response = await api.get(`/Subject/${id}/Stats`)
     return response.data

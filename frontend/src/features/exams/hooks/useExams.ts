@@ -1,22 +1,22 @@
-import { getSubjects, deleteSubject, updateSubject, createSubject } from "../api/SubjectsApi";
+import { getExams, deleteExam, updateExam, createExam } from "../api/ExamsApi";
 import { useEffect, useState } from "react";
-import type { Subject } from "../../../types/Subject";
+import type { Exam } from "../../../types/Exam";
 
-export const useSubjects = () => {
+export const useExams = () => {
 
-    const [subjects, setSubjects] = useState<Subject[]>([])
+    const [exams, setExams] = useState<Exam[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
-        fetchSubjects()
+        fetchExams()
     }, [])
 
-    const fetchSubjects = async () => {
+    const fetchExams = async () => {
         setLoading(true)
         try {
-            const data = await getSubjects()
-            setSubjects(data)
+            const data = await getExams()
+            setExams(data)
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Unknown error')
         } finally {
@@ -24,11 +24,11 @@ export const useSubjects = () => {
         }
     }
 
-    const handleCreateSubject = async (subject: Subject) => {
+    const handleCreateExam = async (exam: Exam) => {
         setLoading(true)
         try {
-            await createSubject(subject)
-            fetchSubjects()
+            await createExam(exam)
+            fetchExams()
         }catch (err) {
             setError(err instanceof Error ? err.message: 'Unknown error')
         }finally {
@@ -36,11 +36,11 @@ export const useSubjects = () => {
         }
     }
 
-    const handleDeleteSubject = async (id: string) => {
+    const handleDeleteExam = async (id: string) => {
         setLoading(true)
         try {
-            await deleteSubject(id)
-            fetchSubjects()
+            await deleteExam(id)
+            fetchExams()
         }catch (err) {
             setError(err instanceof Error ? err.message: 'Unknown error')
         }finally {
@@ -48,11 +48,11 @@ export const useSubjects = () => {
         }
     }
 
-    const handleUpdateSubject = async (id: string, subject: Subject) => {
+    const handleUpdateExam = async (id: string, exam: Exam) => {
         setLoading(true)
         try {
-            await updateSubject(id, subject)
-            fetchSubjects()
+            await updateExam(id, exam)
+            fetchExams()
         }catch (err) {
             setError(err instanceof Error ? err.message: 'Unknown error')
         }finally {
@@ -60,6 +60,5 @@ export const useSubjects = () => {
         }
     }
 
-    return { subjects, loading, error, fetchSubjects, handleCreateSubject, handleDeleteSubject, handleUpdateSubject }
+    return { exams, loading, error, fetchExams, handleCreateExam, handleDeleteExam, handleUpdateExam }
 }
-

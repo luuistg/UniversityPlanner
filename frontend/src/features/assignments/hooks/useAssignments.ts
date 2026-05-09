@@ -1,22 +1,22 @@
-import { getSubjects, deleteSubject, updateSubject, createSubject } from "../api/SubjectsApi";
+import { getAssignments, deleteAssignment, updateAssignment, createAssignment } from "../api/AssignmentsApi";
 import { useEffect, useState } from "react";
-import type { Subject } from "../../../types/Subject";
+import type { Assignment } from "../../../types/Assignment";
 
-export const useSubjects = () => {
+export const useAssignments = () => {
 
-    const [subjects, setSubjects] = useState<Subject[]>([])
+    const [assignments, setAssignments] = useState<Assignment[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
-        fetchSubjects()
+        fetchAssignments()
     }, [])
 
-    const fetchSubjects = async () => {
+    const fetchAssignments = async () => {
         setLoading(true)
         try {
-            const data = await getSubjects()
-            setSubjects(data)
+            const data = await getAssignments()
+            setAssignments(data)
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Unknown error')
         } finally {
@@ -24,11 +24,11 @@ export const useSubjects = () => {
         }
     }
 
-    const handleCreateSubject = async (subject: Subject) => {
+    const handleCreateAssignment = async (assignment: Assignment) => {
         setLoading(true)
         try {
-            await createSubject(subject)
-            fetchSubjects()
+            await createAssignment(assignment)
+            fetchAssignments()
         }catch (err) {
             setError(err instanceof Error ? err.message: 'Unknown error')
         }finally {
@@ -36,11 +36,11 @@ export const useSubjects = () => {
         }
     }
 
-    const handleDeleteSubject = async (id: string) => {
+    const handleDeleteAssignment = async (id: string) => {
         setLoading(true)
         try {
-            await deleteSubject(id)
-            fetchSubjects()
+            await deleteAssignment(id)
+            fetchAssignments()
         }catch (err) {
             setError(err instanceof Error ? err.message: 'Unknown error')
         }finally {
@@ -48,11 +48,11 @@ export const useSubjects = () => {
         }
     }
 
-    const handleUpdateSubject = async (id: string, subject: Subject) => {
+    const handleUpdateAssignment = async (id: string, assignment: Assignment) => {
         setLoading(true)
         try {
-            await updateSubject(id, subject)
-            fetchSubjects()
+            await updateAssignment(id, assignment)
+            fetchAssignments()
         }catch (err) {
             setError(err instanceof Error ? err.message: 'Unknown error')
         }finally {
@@ -60,6 +60,5 @@ export const useSubjects = () => {
         }
     }
 
-    return { subjects, loading, error, fetchSubjects, handleCreateSubject, handleDeleteSubject, handleUpdateSubject }
+    return { assignments, loading, error, fetchAssignments, handleCreateAssignment, handleDeleteAssignment, handleUpdateAssignment }
 }
-
