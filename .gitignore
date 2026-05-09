@@ -1,0 +1,57 @@
+# ===== .NET Backend =====
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+.vs/
+bin/
+obj/
+out/
+publish/
+*.log
+*.db
+*.db-shm
+*.db-wal
+appsettings.Development.json
+
+# ===== NuGet =====
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+packages/
+.nuget/
+
+# ===== Entity Framework =====
+migrations/*.Designer.cs
+
+# ===== React / Node Frontend =====
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ===== Vite =====
+vite.config.ts.timestamp-*
+
+# ===== macOS =====
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# ===== VS Code =====
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# ===== JetBrains =====
+.idea/
+*.iml
