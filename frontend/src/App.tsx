@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="bg-primary text-text flex flex-col min-h-screen">
       <NaNvBar />
-      <div className="max-w-6xl mx-auto pt-30 flex-1" >
+      <div className="max-w-6xl w-full mx-auto pt-30 flex-1" >
         <Routes>
           <Route path="/" element={<DashBoard/>} />
           <Route path="/subjects" element={<Subjects/>} />
