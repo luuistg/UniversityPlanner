@@ -49,7 +49,10 @@ public class AssignmentController : ControllerBase
         {
             return NotFound();  
         }
-        _context.Entry(existingAssignment).CurrentValues.SetValues(assignment);
+        existingAssignment.SubjectId = assignment.SubjectId;
+        existingAssignment.Title = assignment.Title;
+        existingAssignment.DueDate = assignment.DueDate;
+        existingAssignment.Status = assignment.Status;
         _context.SaveChanges();
         return Ok();    
     }

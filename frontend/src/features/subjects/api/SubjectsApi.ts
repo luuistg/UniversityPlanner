@@ -3,7 +3,7 @@ import { api } from '../../../api/axios'
 import type { Subject } from '../../../types/Subject'
 
 export const getSubjects = async () => {
-    const response = await api.get('/Subject')
+    const response = await api.get('/Subject/withStats')
     return response.data
 }
 

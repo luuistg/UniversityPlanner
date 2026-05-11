@@ -1,10 +1,10 @@
 import { getSubjects, deleteSubject, updateSubject, createSubject } from "../api/SubjectsApi";
 import { useEffect, useState } from "react";
-import type { Subject } from "../../../types/Subject";
+import type { Subject, SubjectWithStats } from "../../../types/Subject";
 
 export const useSubjects = () => {
 
-    const [subjects, setSubjects] = useState<Subject[]>([])
+    const [subjects, setSubjects] = useState<SubjectWithStats[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 

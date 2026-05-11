@@ -48,7 +48,11 @@ public class ExamController : ControllerBase
         {
             return NotFound();  
         }
-        _context.Entry(existingExam).CurrentValues.SetValues(exam);
+        existingExam.SubjectId = exam.SubjectId;
+        existingExam.Date = exam.Date;
+        existingExam.Grade = exam.Grade;
+        existingExam.Type = exam.Type;
+        existingExam.Title = exam.Title;
         _context.SaveChanges();
         return Ok();
     }
