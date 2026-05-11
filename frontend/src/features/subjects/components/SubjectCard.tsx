@@ -1,15 +1,22 @@
-import { Pencil, Info,  CircleCheck, FilePen} from 'lucide-react';
+import { Pencil, Info,  CircleCheck, FilePen, GripVertical} from 'lucide-react';
 import { iconMap } from '../../../components/IconsMap'
+import { useDraggable } from '@dnd-kit/core'
 
 
 export default function SubjectCard({ hasPending, subjectName, credits, remaining, icon, subjectId, onEdit }: { hasPending: boolean; subjectName: string; credits: number; remaining: string; icon?: string; subjectId: string; onEdit: () => void }) {
 
     const Icon = (icon && iconMap[icon]) ? iconMap[icon] : FilePen
+    const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: subjectId,
+    })
+    const style = transform ? {
+    transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+    } : undefined
 
     return (
-    <div className="max-w-2xs bg-white border border-secondary border-solid rounded-lg p-4 w-full hover:scale-102 transition-smooth cursor-pointer shadow-md shadow-secondary/30">
+    <div ref={setNodeRef} style={style} className="max-w-2xs bg-white border border-secondary border-solid rounded-lg p-4 w-full hover:scale-102 transition-smooth cursor-pointer shadow-md shadow-secondary/30">
         <div className="flex items-center gap-4">
-            <div className="relative w-16 h-16 bg-primary rounded-lg flex items-center justify-center font-bold">
+            <div {...attributes} {...listeners} className="relative w-16 h-16 bg-primary rounded-lg flex items-center justify-center font-bold">
                 <Icon size={32} color="black" />
                 {hasPending && (
                     <div className="absolute -top-1 -right-1 w-3 h-3 bg-secondary rounded-full" />

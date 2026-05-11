@@ -3,12 +3,15 @@ import { useSubjects } from "../features/subjects/hooks/useSubjects";
 import { Plus } from 'lucide-react'
 import { useState } from "react";
 import SubjectModal from "../features/subjects/components/SubjectModal";
+import { DndContext } from "@dnd-kit/core";
+import DeleteOverlay from "../features/subjects/components/DeleteOverlay";
 
 export default function Subjects() {
 
   const { subjects, handleUpdateSubject, handleCreateSubject, handleDeleteSubject } = useSubjects();
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
+  const [isDragging, setIsDragging] = useState(false)
 
 
   return (
@@ -22,43 +25,54 @@ export default function Subjects() {
             </button>
           </div>
           
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {subjects.map(subject => (
-              <SubjectCard 
-                key={subject.subjectId}
-                subjectId={subject.subjectId}
-                onEdit={() => {
-                    setEditingId(subject.subjectId)
-                    setIsModalOpen(true)
-                }}
-                hasPending={subject.assignmentsPending > 0}
-                subjectName={subject.name}
-                credits={subject.credits}
-                remaining={`Tareas pendientes: ${subject.assignmentsPending}`}
-                icon={subject.icon}
-              />
-            ))}
-          </div>
-          {isModalOpen && (
-              <SubjectModal 
-                  subjectId={editingId}
-                  onClose={() => {
-                      setIsModalOpen(false)
-                      setEditingId(null)
+          <DndContext
+              onDragStart={() => setIsDragging(true)}
+              onDragEnd={(event) => {
+                  setIsDragging(false)
+                  if (event.over?.id === 'delete-zone') {
+                      handleDeleteSubject(event.active.id as string)
+                  }
+              }}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {subjects.map(subject => (
+                <SubjectCard 
+                  key={subject.subjectId}
+                  subjectId={subject.subjectId}
+                  onEdit={() => {
+                      setEditingId(subject.subjectId)
+                      setIsModalOpen(true)
                   }}
-                  onSubmit={(data) => {
-                      editingId ? handleUpdateSubject(editingId, data) : handleCreateSubject(data)
-                      setIsModalOpen(false)
-                      setEditingId(null)
-                  }}
-                  onDelete={() => {
-                      handleDeleteSubject(editingId!)
-                      setIsModalOpen(false)
-                      setEditingId(null)
-                  }}
-              />
-          )}
+                  hasPending={subject.assignmentsPending > 0}
+                  subjectName={subject.name}
+                  credits={subject.credits}
+                  remaining={`Tareas pendientes: ${subject.assignmentsPending}`}
+                  icon={subject.icon}
+                />
+              ))}
+            </div>
+            {isModalOpen && (
+                <SubjectModal 
+                    subjectId={editingId}
+                    onClose={() => {
+                        setIsModalOpen(false)
+                        setEditingId(null)
+                    }}
+                    onSubmit={(data) => {
+                        editingId ? handleUpdateSubject(editingId, data) : handleCreateSubject(data)
+                        setIsModalOpen(false)
+                        setEditingId(null)
+                    }}
+                    onDelete={() => {
+                        handleDeleteSubject(editingId!)
+                        setIsModalOpen(false)
+                        setEditingId(null)
+                    }}
+                />
+            )}
+            {isDragging && <DeleteOverlay />}
+          </DndContext>
+          
     </div>
   )
 }
