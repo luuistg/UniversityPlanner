@@ -2,8 +2,11 @@ import { api } from '../../../api/axios'
 
 import type { Exam } from '../../../types/Exam'
 
-export const getExams = async () => {
-    const response = await api.get('/Exam')
+export const getExams = async (subjectId?: string) => {
+    const url = subjectId ? '/Exam/by-subject' : '/Exam'
+    const response = await api.get(url, { 
+        params: subjectId ? { subjectId } : {} 
+    })
     return response.data
 }
 

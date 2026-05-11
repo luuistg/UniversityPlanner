@@ -51,7 +51,7 @@ public class ExamController : ControllerBase
         existingExam.SubjectId = exam.SubjectId;
         existingExam.Date = exam.Date;
         existingExam.Grade = exam.Grade;
-        existingExam.Type = exam.Type;
+        existingExam.ExamType = exam.ExamType;
         existingExam.Title = exam.Title;
         _context.SaveChanges();
         return Ok();
@@ -68,5 +68,17 @@ public class ExamController : ControllerBase
         _context.Exams.Remove(exam);
         _context.SaveChanges();
         return NoContent();
+    }
+
+
+    [HttpGet ("by-subject")]
+    public IActionResult GetExamsBySubject([FromQuery] Guid? subjectId)
+    {
+        var query = _context.Exams.AsQueryable();
+        
+        if (subjectId.HasValue)
+            query = query.Where(e => e.SubjectId == subjectId.Value);
+            
+        return Ok(query.ToList());
     }
 }

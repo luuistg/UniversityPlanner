@@ -2,7 +2,7 @@ import { getExams, deleteExam, updateExam, createExam } from "../api/ExamsApi";
 import { useEffect, useState } from "react";
 import type { Exam } from "../../../types/Exam";
 
-export const useExams = () => {
+export const useExams = (subjectId?: string) => {
 
     const [exams, setExams] = useState<Exam[]>([])
     const [loading, setLoading] = useState(false)
@@ -10,12 +10,12 @@ export const useExams = () => {
 
     useEffect(() => {
         fetchExams()
-    }, [])
+    }, [subjectId])
 
     const fetchExams = async () => {
         setLoading(true)
         try {
-            const data = await getExams()
+            const data = await getExams(subjectId)
             setExams(data)
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Unknown error')
@@ -24,10 +24,10 @@ export const useExams = () => {
         }
     }
 
-    const handleCreateExam = async (exam: Exam) => {
+    const handleCreateExam = async (exam: Omit<Exam, 'examId'>) => {
         setLoading(true)
         try {
-            await createExam(exam)
+            await createExam(exam as Exam)
             fetchExams()
         }catch (err) {
             setError(err instanceof Error ? err.message: 'Unknown error')

@@ -69,5 +69,16 @@ public class AssignmentController : ControllerBase
         _context.SaveChanges();
         return NoContent();
     }
+
+    [HttpGet ("by-subject")]
+    public IActionResult GetAssignmentsBySubject([FromQuery] Guid? subjectId)
+    {
+        var query = _context.Assignments.AsQueryable();
+        
+        if (subjectId.HasValue)
+            query = query.Where(a => a.SubjectId == subjectId.Value);
+            
+        return Ok(query.ToList());
+    }
     
 }

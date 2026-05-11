@@ -123,4 +123,26 @@ public class SubjectController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpGet]
+    public IActionResult GetAssignments([FromQuery] Guid? subjectId)
+    {
+        var query = _context.Assignments.AsQueryable();
+        
+        if (subjectId.HasValue)
+            query = query.Where(a => a.SubjectId == subjectId.Value);
+            
+        return Ok(query.ToList());
+    }
+
+    [HttpGet]
+    public IActionResult GetExams([FromQuery] Guid? subjectId)
+    {
+        var query = _context.Exams.AsQueryable();
+        
+        if (subjectId.HasValue)
+            query = query.Where(e => e.SubjectId == subjectId.Value);
+            
+        return Ok(query.ToList());
+    }
 }

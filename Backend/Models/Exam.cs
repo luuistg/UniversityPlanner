@@ -13,7 +13,7 @@ public class Exam
     [Range(0, 10)]
     public float? Grade { get; set; }
     [Required]
-    public ExamType Type { get; set; } = ExamType.First;
+    public ExamType ExamType { get; set; } = ExamType.First;
     [Required]
     public Guid SubjectId { get; set; }
     public Subject? Subject { get; set; }

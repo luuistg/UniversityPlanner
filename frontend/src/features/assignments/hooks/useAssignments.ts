@@ -2,7 +2,7 @@ import { getAssignments, deleteAssignment, updateAssignment, createAssignment } 
 import { useEffect, useState } from "react";
 import type { Assignment } from "../../../types/Assignment";
 
-export const useAssignments = () => {
+export const useAssignments = (subjectId?: string) => {
 
     const [assignments, setAssignments] = useState<Assignment[]>([])
     const [loading, setLoading] = useState(false)
@@ -10,12 +10,12 @@ export const useAssignments = () => {
 
     useEffect(() => {
         fetchAssignments()
-    }, [])
+    }, [subjectId])
 
     const fetchAssignments = async () => {
         setLoading(true)
         try {
-            const data = await getAssignments()
+            const data = await getAssignments(subjectId)
             setAssignments(data)
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Unknown error')
@@ -24,10 +24,10 @@ export const useAssignments = () => {
         }
     }
 
-    const handleCreateAssignment = async (assignment: Assignment) => {
+    const handleCreateAssignment = async (assignment: Omit<Assignment, 'assignmentId'>) => {
         setLoading(true)
         try {
-            await createAssignment(assignment)
+            await createAssignment(assignment as Assignment)
             fetchAssignments()
         }catch (err) {
             setError(err instanceof Error ? err.message: 'Unknown error')

@@ -3,6 +3,6 @@ export interface Exam {
     title: string
     date: string
     grade?: number
-    type: string
+    examType: string
     subjectId: string
 }

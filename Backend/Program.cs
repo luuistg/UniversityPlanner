@@ -1,5 +1,6 @@
 using Backend.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,12 @@ builder.Services.AddOpenApi();
 // Add DB Context
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=universityplanner.db"));
+
+builder.Services.AddControllers()
+.AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 // Allow frontend to access the API
 builder.Services.AddCors(options =>

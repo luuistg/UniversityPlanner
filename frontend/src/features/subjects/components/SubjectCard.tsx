@@ -1,4 +1,5 @@
-import { Pencil, Info,  CircleCheck, FilePen, GripVertical} from 'lucide-react';
+import { Pencil, Info,  CircleCheck, FilePen} from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { iconMap } from '../../../components/IconsMap'
 import { useDraggable } from '@dnd-kit/core'
 
@@ -13,8 +14,15 @@ export default function SubjectCard({ hasPending, subjectName, credits, remainin
     transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
     } : undefined
 
+    const navigate = useNavigate()
+
     return (
-    <div ref={setNodeRef} style={style} className="max-w-2xs bg-white border border-secondary border-solid rounded-lg p-4 w-full hover:scale-102 transition-smooth cursor-pointer shadow-md shadow-secondary/30">
+    <div ref={setNodeRef} style={style} className="max-w-2xs bg-white border border-secondary border-solid rounded-lg p-4 w-full hover:scale-102 transition-smooth cursor-pointer shadow-md shadow-secondary/30"
+        onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/subject-info/${subjectId}`);
+             }}
+        >
         <div className="flex items-center gap-4">
             <div {...attributes} {...listeners} className="relative w-16 h-16 bg-primary rounded-lg flex items-center justify-center font-bold">
                 <Icon size={32} color="black" />
