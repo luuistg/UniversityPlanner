@@ -2,9 +2,10 @@ import { Pencil, Info,  CircleCheck, FilePen} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { iconMap } from '../../../components/IconsMap'
 import { useDraggable } from '@dnd-kit/core'
+import { colorMap } from '../../../components/ColorMap'
 
 
-export default function SubjectCard({ hasPending, hasInProgress, hasReview, subjectName, credits, remaining, inProgress, review, icon, subjectId, onEdit }: { hasPending: boolean; hasInProgress: boolean; hasReview: boolean; subjectName: string; credits: number; remaining: string; inProgress: string; review: string; icon?: string; subjectId: string; onEdit: () => void }) {
+export default function SubjectCard({ hasPending, hasInProgress, hasReview, subjectName, credits, remaining, inProgress, review, icon, subjectId, color, onEdit }: { hasPending: boolean; hasInProgress: boolean; hasReview: boolean; subjectName: string; credits: number; remaining: string; inProgress: string; review: string; icon?: string; subjectId: string; color?: string; onEdit: () => void }) {
 
     const Icon = (icon && iconMap[icon]) ? iconMap[icon] : FilePen
     const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -24,7 +25,7 @@ export default function SubjectCard({ hasPending, hasInProgress, hasReview, subj
              }}
         >
         <div className="flex items-center gap-4">
-            <div {...attributes} {...listeners} className="relative w-16 h-16 bg-primary rounded-lg flex items-center justify-center font-bold">
+            <div {...attributes} {...listeners} className={`relative w-16 h-16 ${color && colorMap[color] ? colorMap[color] : 'bg-primary'} rounded-lg flex items-center justify-center font-bold`}>
                 <Icon size={32} color="black" />
                 {/* Punto — solo el más prioritario */}
                 {hasPending && <div className="absolute -top-1 -right-1 w-3 h-3 bg-secondary rounded-full" />}

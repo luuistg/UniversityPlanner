@@ -52,6 +52,7 @@ export default function Subjects() {
                   inProgress={`En curso: ${subject.assignmentsInProgress}`}
                   review={`En revisión: ${subject.assignmentsReview}`}
                   icon={subject.icon}
+                  color={subject.color}
                 />
               ))}
             </div>

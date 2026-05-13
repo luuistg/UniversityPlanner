@@ -1,6 +1,7 @@
 import { Pencil, Plus, Loader2, Trash2 } from 'lucide-react';
 import { useSubject } from '../hooks/useSubject';
 import { iconMap } from '../../../components/IconsMap'
+import { colorMap } from '../../../components/ColorMap'
 import { useEffect, useState } from 'react'
 
 interface SubjectFormProps {
@@ -14,17 +15,18 @@ interface SubjectFormData {
     name: string;
     credits: number;
     icon: string;
+    color: string;
 }
 
 export default function SubjectForm({ subjectId, onSubmit, onCancel, onDelete }: SubjectFormProps) {
     const { subject, loading, error } = useSubject(subjectId);
     const isEditing = subjectId !== null;
     const [selectedIcon, setSelectedIcon] = useState(subject?.icon ?? '')
+    const [selectedColor, setSelectedColor] = useState(subject?.color ?? '')
 
     useEffect(() => {
-        if (subject?.icon) {
-            setSelectedIcon(subject.icon)
-        }
+        if (subject?.icon) setSelectedIcon(subject.icon)
+        if (subject?.color) setSelectedColor(subject.color)
     }, [subject])
 
     if (loading) {
@@ -72,6 +74,7 @@ export default function SubjectForm({ subjectId, onSubmit, onCancel, onDelete }:
                         name: formData.get('subjectName') as string,
                         credits: Number(formData.get('subjectCredits')),
                         icon: formData.get('subjectIcon') as string,
+                        color: formData.get('subjectColor') as string,
                     });
                 }}
             >
@@ -105,7 +108,7 @@ export default function SubjectForm({ subjectId, onSubmit, onCancel, onDelete }:
                         className="w-full bg-white border border-text/15 rounded-lg px-3 py-2 
                                    focus:outline-none focus:border-secondary focus:bg-primary/30 
                                    transition-colors"
-                        defaultValue={subject?.credits?.toString() ?? ' '}
+                        defaultValue={subject?.credits?.toString() ?? ''}
                     />
                 </div>
 
@@ -127,8 +130,26 @@ export default function SubjectForm({ subjectId, onSubmit, onCancel, onDelete }:
                             </button>
                         ))}
                     </div>
-                    {/* campo oculto para que el formulario recoja el valor */}
                     <input type="hidden" name="subjectIcon" value={selectedIcon} />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-text mb-1.5">Color</label>
+                    <div className="flex gap-2 flex-wrap">
+                        {Object.entries(colorMap).map(([name, bgClass]) => (
+                            <button
+                                key={name}
+                                type="button"
+                                onClick={() => setSelectedColor(name)}
+                                className={`w-8 h-8 rounded-full ${bgClass} transition-all ${
+                                    selectedColor === name
+                                        ? 'ring-2 ring-offset-2 ring-secondary scale-110'
+                                        : 'hover:scale-105'
+                                }`}
+                            />
+                        ))}
+                    </div>
+                    <input type="hidden" name="subjectColor" value={selectedColor} />
                 </div>
 
                 <div className="flex items-center justify-between gap-2 mt-6 pt-4 border-t border-text/10">

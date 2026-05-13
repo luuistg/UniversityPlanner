@@ -3,6 +3,7 @@ export interface Subject {
     name: string
     credits: number
     icon: string
+    color: string
 }
 
 export interface SubjectWithStats extends Subject {

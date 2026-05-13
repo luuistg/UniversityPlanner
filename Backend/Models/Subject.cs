@@ -13,4 +13,6 @@ public class Subject
     public float Credits { get; set; }
     [Required]
     public string Icon { get; set; } = string.Empty;
+    [Required]
+    public SubjectColor Color { get; set; }
 }

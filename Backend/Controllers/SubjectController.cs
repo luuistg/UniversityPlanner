@@ -54,6 +54,7 @@ public class SubjectController : ControllerBase
         existingSubject.Name = subject.Name;
         existingSubject.Credits = subject.Credits;
         existingSubject.Icon = subject.Icon;
+        existingSubject.Color = subject.Color;
         _context.SaveChanges();
         return Ok();
     }
@@ -112,6 +113,7 @@ public class SubjectController : ControllerBase
             name = s.Name,
             credits = s.Credits,
             icon = s.Icon,
+            color = s.Color,
             AssignmentsCount = _context.Assignments.Count(a => a.SubjectId == s.SubjectId),
             AssignmentsPending = _context.Assignments.Count(a => a.SubjectId == s.SubjectId && a.Status == Status.Pending),
             AssignmentsInProgress = _context.Assignments.Count(a => a.SubjectId == s.SubjectId && a.Status == Status.InProgress),
