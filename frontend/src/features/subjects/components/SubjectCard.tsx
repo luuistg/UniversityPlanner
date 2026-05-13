@@ -4,7 +4,7 @@ import { iconMap } from '../../../components/IconsMap'
 import { useDraggable } from '@dnd-kit/core'
 
 
-export default function SubjectCard({ hasPending, subjectName, credits, remaining, icon, subjectId, onEdit }: { hasPending: boolean; subjectName: string; credits: number; remaining: string; icon?: string; subjectId: string; onEdit: () => void }) {
+export default function SubjectCard({ hasPending, hasInProgress, hasReview, subjectName, credits, remaining, inProgress, review, icon, subjectId, onEdit }: { hasPending: boolean; hasInProgress: boolean; hasReview: boolean; subjectName: string; credits: number; remaining: string; inProgress: string; review: string; icon?: string; subjectId: string; onEdit: () => void }) {
 
     const Icon = (icon && iconMap[icon]) ? iconMap[icon] : FilePen
     const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -26,9 +26,10 @@ export default function SubjectCard({ hasPending, subjectName, credits, remainin
         <div className="flex items-center gap-4">
             <div {...attributes} {...listeners} className="relative w-16 h-16 bg-primary rounded-lg flex items-center justify-center font-bold">
                 <Icon size={32} color="black" />
-                {hasPending && (
-                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-secondary rounded-full" />
-                )}
+                {/* Punto — solo el más prioritario */}
+                {hasPending && <div className="absolute -top-1 -right-1 w-3 h-3 bg-secondary rounded-full" />}
+                {!hasPending && hasInProgress && <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full" />}
+                {!hasPending && !hasInProgress && hasReview && <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full" />}
             </div>
             <button className="ml-auto bg-transparent px-3 py-3 rounded-lg hover:bg-secondary/50 shadow shadow-secondary/30 transition-colors"
                 onClick={(e) => {
@@ -43,21 +44,31 @@ export default function SubjectCard({ hasPending, subjectName, credits, remainin
                 <h2 className="text-xl font-bold mb-2">{subjectName}</h2>
                 <p className="text-text-secondary">Creditos: {credits}</p>
         </div>
-        <div className="flex items-center mt-4">
+        <div className="flex flex-col gap-1 mt-4">
             {hasPending && (
-                <>
-                    <Info size={16} color="red" className="inline-block mr-1" />
-                    <p className="text-secondary">{remaining}</p>
-                </> 
+                <div className="flex items-center gap-1">
+                    <Info size={14} color="red" />
+                    <p className="text-secondary text-xs">{remaining}</p>
+                </div>
             )}
-
-            {!hasPending && (
-                <>
-                    <CircleCheck size={16} color="green" className="inline-block mr-1" />
-                    <p className="text-green-700">Nada pendiente</p>
-                </> 
+            {hasInProgress && (
+                <div className="flex items-center gap-1">
+                    <Info size={14} color="orange" />
+                    <p className="text-orange-500 text-xs">{inProgress}</p>
+                </div>
             )}
-            
+            {hasReview && (
+                <div className="flex items-center gap-1">
+                    <Info size={14} color="blue" />
+                    <p className="text-blue-500 text-xs">{review}</p>
+                </div>
+            )}
+            {!hasPending && !hasInProgress && !hasReview && (
+                <div className="flex items-center gap-1">
+                    <CircleCheck size={14} color="green" />
+                    <p className="text-green-700 text-xs">Nada pendiente</p>
+                </div>
+            )}
         </div>
     </div>
     )

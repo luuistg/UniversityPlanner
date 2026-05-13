@@ -44,9 +44,13 @@ export default function Subjects() {
                       setIsModalOpen(true)
                   }}
                   hasPending={subject.assignmentsPending > 0}
+                  hasInProgress={subject.assignmentsInProgress > 0}
+                  hasReview={subject.assignmentsReview > 0}
                   subjectName={subject.name}
                   credits={subject.credits}
-                  remaining={`Tareas pendientes: ${subject.assignmentsPending}`}
+                  remaining={`Pendientes: ${subject.assignmentsPending}`}
+                  inProgress={`En curso: ${subject.assignmentsInProgress}`}
+                  review={`En revisión: ${subject.assignmentsReview}`}
                   icon={subject.icon}
                 />
               ))}
