@@ -39,6 +39,7 @@ export default function Subjects() {
                 <SubjectCard 
                   key={subject.subjectId}
                   subjectId={subject.subjectId}
+                  color={subject.color}
                   onEdit={() => {
                       setEditingId(subject.subjectId)
                       setIsModalOpen(true)
@@ -52,7 +53,6 @@ export default function Subjects() {
                   inProgress={`En curso: ${subject.assignmentsInProgress}`}
                   review={`En revisión: ${subject.assignmentsReview}`}
                   icon={subject.icon}
-                  color={subject.color}
                 />
               ))}
             </div>

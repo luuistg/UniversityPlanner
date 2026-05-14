@@ -9,7 +9,7 @@ export default function DashBoard() {
 
   return (
       <div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
               <UpcomingAssignments assignments={upcomingAssignments} />
               <UpcomingExams exams={upcomingExams} />
           </div>

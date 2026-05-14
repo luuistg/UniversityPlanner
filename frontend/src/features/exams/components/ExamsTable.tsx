@@ -60,9 +60,10 @@ export default function ExamsTable({ subjectId }: { subjectId?: string }) {
                     exams.map((exam, index) => (
                         <div
                             key={`${exam.examId}-${exam.title}-${exam.examType}-${exam.date}-${exam.grade ?? "no-grade"}`}
-                            className={`grid grid-cols-[2fr_1.5fr_1.5fr_1fr_40px] gap-4 px-4 py-3 items-center ${
+                            className={`grid grid-cols-[2fr_1.5fr_1.5fr_1fr_40px] gap-4 px-4 py-3 items-center  animate-slide-in-left ${
                                 index % 2 === 0 ? "bg-transparent" : "bg-secondary/30"
                             }`}
+                            style={{ animationDelay: `${index * 0.10}s` }}
                         >
                             <input
                                 defaultValue={exam.title}

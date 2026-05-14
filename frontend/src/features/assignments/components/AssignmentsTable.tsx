@@ -45,9 +45,10 @@ export default function AssignmentsTable({ subjectId }: { subjectId?: string }) 
                     assignments.map((assignment, index) => (
                         <div
                             key={`${assignment.assignmentId}-${assignment.title}-${assignment.status}-${assignment.dueDate}`} // clave única que cambia si se edita algo
-                            className={`grid grid-cols-[2fr_1.5fr_1.5fr_40px] gap-4 px-4 py-3 items-center ${
+                            className={`grid grid-cols-[2fr_1.5fr_1.5fr_40px] gap-4 px-4 py-3 items-center animate-slide-in-left ${
                                 index % 2 === 0 ? "bg-transparent" : "bg-secondary/30"
                             }`}
+                            style={{ animationDelay: `${index * 0.10}s` }}
                         >
                             {/* Título editable */}
                             <input
