@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react"
 import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, ResponsiveContainer, CartesianGrid } from "recharts"
 import { RefreshCw } from "lucide-react"
 import { getSubjectStats } from "../api/SubjectsApi"
+import { useExams } from "../../exams/hooks/useExams"
 
 interface SubjectStatsData {
     assignmentsCount: number
@@ -32,8 +33,9 @@ const STATUS_LABELS: Record<string, string> = {
     Completed: "Completada",
 }
 
-export default function SubjectStats({ subjectId, exams }: { subjectId: string; exams: ExamGrade[] }) {
+export default function SubjectStats({ subjectId }: { subjectId: string }) {
     const [stats, setStats] = useState<SubjectStatsData | null>(null)
+    const { exams, fetchExams } = useExams(subjectId)
     const [loading, setLoading] = useState(false)
     const statsRef = useRef<HTMLDivElement>(null)
 
@@ -48,6 +50,7 @@ export default function SubjectStats({ subjectId, exams }: { subjectId: string; 
     const handleRefreshStats = () => {
         if (!subjectId) return
         setLoading(true)
+        fetchExams()
         getSubjectStats(subjectId)
             .then(setStats)
             .finally(() => setLoading(false))

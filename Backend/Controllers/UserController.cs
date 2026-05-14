@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Backend.Services;
 
 
 namespace Backend.Controllers;
@@ -16,10 +17,13 @@ public class UserController : ControllerBase
     private readonly AppDbContext _context;
     private readonly IConfiguration _configuration;
 
-    public UserController(AppDbContext context, IConfiguration configuration)
+    private readonly EmailService _emailService;
+
+    public UserController(AppDbContext context, IConfiguration configuration, EmailService emailService)
     {
         _context = context;
         _configuration = configuration;
+        _emailService = emailService;
     }   
 
     public record LoginRequest(string Email, string Password);
@@ -44,5 +48,19 @@ public class UserController : ControllerBase
         );
 
         return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
-        }
+    }
+
+    /**
+    [HttpGet("test-email")]
+    public async Task<IActionResult> TestEmail()
+    {
+        var userEmail = _context.Users.First().Email;
+        await _emailService.SendEmailAsync(
+            userEmail,
+            "Test UP — Email funcionando",
+            "<h1>El sistema de emails funciona correctamente</h1>"
+        );
+        return Ok("Email enviado");
+    }
+    **/
 }
