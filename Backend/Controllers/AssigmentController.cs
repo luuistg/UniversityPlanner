@@ -1,9 +1,11 @@
 using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Backend.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class AssignmentController : ControllerBase

@@ -4,7 +4,8 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
+using Backend.Services;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,13 +17,16 @@ builder.Services.AddOpenApi();
 
 // Add DB Context
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=universityplanner.db"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddControllers()
 .AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
+
+builder.Services.AddSingleton<EmailService>();
+builder.Services.AddHostedService<DailyReminderService>();
 
 // Allow frontend to access the API
 builder.Services.AddCors(options =>
