@@ -9,6 +9,7 @@ import AssignmentsTable from "../features/assignments/components/AssignmentsTabl
 import ExamsTable from "../features/exams/components/ExamsTable";
 import SubjectStats from "../features/subjects/components/SubjectStats";
 import { useExams } from "../features/exams/hooks/useExams"
+import { colorMap } from "../components/ColorMap"
 
 export default function SubjectInfo() {
   const { id } = useParams();
@@ -33,7 +34,7 @@ export default function SubjectInfo() {
     <div className="p-6">
       <div className="p-6 flex items-start gap-4∫">
         <div>
-          <div className="relative w-16 h-16 bg-primary rounded-lg flex items-center justify-center font-bold ">
+          <div style={{ viewTransitionName: `subject-icon-${subject.subjectId}` }} className={`relative w-16 h-16 ${subject.color && colorMap[subject.color] ? colorMap[subject.color] : 'bg-primary'} rounded-lg flex items-center justify-center font-bold p-2`}>
             <Icon size={72} color="black" />
           </div>
         </div>

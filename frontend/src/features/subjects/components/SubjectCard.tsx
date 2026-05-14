@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { iconMap } from '../../../components/IconsMap'
 import { useDraggable } from '@dnd-kit/core'
 import { colorMap } from '../../../components/ColorMap'
+import { flushSync } from 'react-dom'
 
 
 export default function SubjectCard({ hasPending, hasInProgress, hasReview, subjectName, credits, remaining, inProgress, review, icon, subjectId, color, onEdit }: { hasPending: boolean; hasInProgress: boolean; hasReview: boolean; subjectName: string; credits: number; remaining: string; inProgress: string; review: string; icon?: string; subjectId: string; color?: string; onEdit: () => void }) {
@@ -21,11 +22,19 @@ export default function SubjectCard({ hasPending, hasInProgress, hasReview, subj
     <div ref={setNodeRef} style={style} className="max-w-2xs bg-white border border-secondary border-solid rounded-lg p-4 w-full hover:scale-102 transition-smooth cursor-pointer shadow-md shadow-secondary/30"
         onClick={(e) => {
             e.stopPropagation();
-            navigate(`/subject-info/${subjectId}`);
-             }}
+            if (!document.startViewTransition) {
+                navigate(`/subject-info/${subjectId}`)
+                return
+            }
+            document.startViewTransition(() => {
+                flushSync(() => {
+                    navigate(`/subject-info/${subjectId}`)
+                })
+            })
+        }}
         >
         <div className="flex items-center gap-4">
-            <div {...attributes} {...listeners} className={`relative w-16 h-16 ${color && colorMap[color] ? colorMap[color] : 'bg-primary'} rounded-lg flex items-center justify-center font-bold`}>
+            <div {...attributes} {...listeners} style={{ viewTransitionName: `subject-icon-${subjectId}` }} className={`relative w-16 h-16 ${color && colorMap[color] ? colorMap[color] : 'bg-primary'} rounded-lg flex items-center justify-center font-bold`}>
                 <Icon size={32} color="black" />
                 {/* Punto — solo el más prioritario */}
                 {hasPending && <div className="absolute -top-1 -right-1 w-3 h-3 bg-secondary rounded-full" />}
