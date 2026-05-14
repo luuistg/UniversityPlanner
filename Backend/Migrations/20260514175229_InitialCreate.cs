@@ -15,11 +15,11 @@ namespace Backend.Migrations
                 name: "Subjects",
                 columns: table => new
                 {
-                    SubjectId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Credits = table.Column<float>(type: "real", nullable: false),
-                    Icon = table.Column<string>(type: "text", nullable: false),
-                    Color = table.Column<int>(type: "integer", nullable: false)
+                    SubjectId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Credits = table.Column<float>(type: "REAL", nullable: false),
+                    Icon = table.Column<string>(type: "TEXT", nullable: false),
+                    Color = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,8 +30,8 @@ namespace Backend.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: false)
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,11 +42,11 @@ namespace Backend.Migrations
                 name: "Assignments",
                 columns: table => new
                 {
-                    AssignmentId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: false),
-                    DueDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    SubjectId = table.Column<Guid>(type: "uuid", nullable: false)
+                    AssignmentId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
+                    DueDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    SubjectId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,12 +63,12 @@ namespace Backend.Migrations
                 name: "Exams",
                 columns: table => new
                 {
-                    ExamId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: false),
-                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Grade = table.Column<float>(type: "real", nullable: true),
-                    ExamType = table.Column<int>(type: "integer", nullable: false),
-                    SubjectId = table.Column<Guid>(type: "uuid", nullable: false)
+                    ExamId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
+                    Date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Grade = table.Column<float>(type: "REAL", nullable: true),
+                    ExamType = table.Column<int>(type: "INTEGER", nullable: false),
+                    SubjectId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
