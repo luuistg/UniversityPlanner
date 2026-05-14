@@ -3,7 +3,7 @@ import { api } from '../../../api/axios'
 import type { Subject } from '../../../types/Subject'
 
 export const getSubjects = async () => {
-    const response = await api.get('/Subject')
+    const response = await api.get('/Subject/withStats')
     return response.data
 }
 
@@ -32,7 +32,7 @@ export const deleteSubject = async (id: string) => {
     return response.data
 }
 
-export const SubjectStats = async (id: string) => {
+export const getSubjectStats = async (id: string) => {
 
     const response = await api.get(`/Subject/${id}/Stats`)
     return response.data

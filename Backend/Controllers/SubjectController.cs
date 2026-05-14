@@ -2,9 +2,11 @@ using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Data;
 using Backend.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Backend.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class SubjectController : ControllerBase
@@ -51,7 +53,10 @@ public class SubjectController : ControllerBase
         {
             return NotFound();
         }
-        _context.Entry(existingSubject).CurrentValues.SetValues(subject);
+        existingSubject.Name = subject.Name;
+        existingSubject.Credits = subject.Credits;
+        existingSubject.Icon = subject.Icon;
+        existingSubject.Color = subject.Color;
         _context.SaveChanges();
         return Ok();
     }
@@ -99,5 +104,27 @@ public class SubjectController : ControllerBase
 
         return Ok(stats);
     }
-    
+
+    [HttpGet("withStats")]
+    public IActionResult GetSubjectWithStats()
+    {
+
+        var result = _context.Subjects.Select(s => new
+        {
+            SubjectId = s.SubjectId,
+            name = s.Name,
+            credits = s.Credits,
+            icon = s.Icon,
+            color = s.Color,
+            AssignmentsCount = _context.Assignments.Count(a => a.SubjectId == s.SubjectId),
+            AssignmentsPending = _context.Assignments.Count(a => a.SubjectId == s.SubjectId && a.Status == Status.Pending),
+            AssignmentsInProgress = _context.Assignments.Count(a => a.SubjectId == s.SubjectId && a.Status == Status.InProgress),
+            AssignmentsReview = _context.Assignments.Count(a => a.SubjectId == s.SubjectId && a.Status == Status.Review),
+            AssignmentsCompleted = _context.Assignments.Count(a => a.SubjectId == s.SubjectId && a.Status == Status.Completed),
+            ExamsCount = _context.Exams.Count(e => e.SubjectId == s.SubjectId),
+            ExamsAverageGrade = _context.Exams.Where(e => e.SubjectId == s.SubjectId && e.Grade.HasValue).Average(e => e.Grade) ?? 0
+        }).ToList();
+
+        return Ok(result);
+    }
 }

@@ -10,5 +10,9 @@ public class Subject
     public string Name { get; set; } = string.Empty;
     [Required]
     [Range(1, 20)]
-    public float Credit { get; set; }
+    public float Credits { get; set; }
+    [Required]
+    public string Icon { get; set; } = string.Empty;
+    [Required]
+    public SubjectColor Color { get; set; }
 }

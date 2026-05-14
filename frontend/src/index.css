@@ -1,1 +1,27 @@
 @import "tailwindcss";
+@import 'tailwind-animations';
+
+@theme {
+	--color-primary: #FEFCD9;
+	--color-secondary: #FF4747;
+    --color-text: #1A1A1A;
+    --color-text-secondary: #8A8960;
+}
+
+::view-transition-old(root) {
+    animation: fade-out 0.3s ease-out;
+}
+
+::view-transition-new(root) {
+    animation: fade-in 0.3s ease-in;
+}
+
+@keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

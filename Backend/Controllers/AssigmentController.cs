@@ -1,9 +1,11 @@
 using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Backend.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class AssignmentController : ControllerBase
@@ -49,7 +51,10 @@ public class AssignmentController : ControllerBase
         {
             return NotFound();  
         }
-        _context.Entry(existingAssignment).CurrentValues.SetValues(assignment);
+        existingAssignment.SubjectId = assignment.SubjectId;
+        existingAssignment.Title = assignment.Title;
+        existingAssignment.DueDate = assignment.DueDate;
+        existingAssignment.Status = assignment.Status;
         _context.SaveChanges();
         return Ok();    
     }
@@ -65,6 +70,17 @@ public class AssignmentController : ControllerBase
         _context.Assignments.Remove(assignment);
         _context.SaveChanges();
         return NoContent();
+    }
+
+    [HttpGet ("by-subject")]
+    public IActionResult GetAssignmentsBySubject([FromQuery] Guid? subjectId)
+    {
+        var query = _context.Assignments.AsQueryable();
+        
+        if (subjectId.HasValue)
+            query = query.Where(a => a.SubjectId == subjectId.Value);
+            
+        return Ok(query.ToList());
     }
     
 }

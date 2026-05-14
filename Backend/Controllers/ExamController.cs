@@ -1,9 +1,11 @@
 using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Backend.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class ExamController : ControllerBase
@@ -48,7 +50,11 @@ public class ExamController : ControllerBase
         {
             return NotFound();  
         }
-        _context.Entry(existingExam).CurrentValues.SetValues(exam);
+        existingExam.SubjectId = exam.SubjectId;
+        existingExam.Date = exam.Date;
+        existingExam.Grade = exam.Grade;
+        existingExam.ExamType = exam.ExamType;
+        existingExam.Title = exam.Title;
         _context.SaveChanges();
         return Ok();
     }
@@ -64,5 +70,17 @@ public class ExamController : ControllerBase
         _context.Exams.Remove(exam);
         _context.SaveChanges();
         return NoContent();
+    }
+
+
+    [HttpGet ("by-subject")]
+    public IActionResult GetExamsBySubject([FromQuery] Guid? subjectId)
+    {
+        var query = _context.Exams.AsQueryable();
+        
+        if (subjectId.HasValue)
+            query = query.Where(e => e.SubjectId == subjectId.Value);
+            
+        return Ok(query.ToList());
     }
 }

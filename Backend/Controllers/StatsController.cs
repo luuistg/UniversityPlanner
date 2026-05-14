@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Backend.Data;
 using Backend.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Backend.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class StatsController : ControllerBase
@@ -25,7 +27,7 @@ public class StatsController : ControllerBase
         var assignmentsReview = _context.Assignments.Count(a => a.Status == Status.Review);
         var assignmentsCompleted = _context.Assignments.Count(a => a.Status == Status.Completed);
 
-        var examsPending = _context.Exams.Where(e => e.Date >= DateTime.Now).OrderBy(e => e.Date).ToList();
+        var examsPending = _context.Exams.Where(e => e.Date >= DateTime.UtcNow).OrderBy(e => e.Date).ToList();
 
         var stats = new
         {
@@ -39,5 +41,19 @@ public class StatsController : ControllerBase
          };
 
         return Ok(stats);
+    }
+
+    [HttpGet("upcomingExams")]
+    public IActionResult GetUpcomingExams()
+    {
+        var upcomingExams = _context.Exams.Where(e => e.Date >= DateTime.UtcNow ).OrderBy(e => e.Date).Take(3).ToList();
+        return Ok(upcomingExams);
+    }
+
+    [HttpGet("upcomingAssignments")]
+    public IActionResult GetUpcomingAssignments()
+    {
+        var upcomingAssignments = _context.Assignments.Where(a => a.DueDate >= DateTime.UtcNow && a.Status != Status.Completed).OrderBy(a => a.DueDate).Take(3).ToList();
+        return Ok(upcomingAssignments);
     }
 }
