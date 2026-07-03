@@ -77,7 +77,6 @@ export default function Subjects() {
             )}
             {isDragging && <DeleteOverlay />}
           </DndContext>
-          
     </div>
   )
 }

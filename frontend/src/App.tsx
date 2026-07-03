@@ -20,7 +20,7 @@ function App() {
                 <ProtectedRoute>
                   <>
                       <NavBar />
-                      <div className="max-w-6xl w-full mx-auto pt-20 flex-1 px-6 mt-4">
+                      <div className="max-w-6xl w-full mx-auto pt-24 flex-1 px-6">
                           <Routes>
                               <Route path="/" element={<DashBoard />} />
                               <Route path="/subjects" element={<Subjects />} />

@@ -22,9 +22,9 @@ export default function NavBar() {
     }, [])
 
     return (
-    <section className={`bg-transparent fixed top-0 left-0 right-0 w-full transition-all duration-300 ${scrolled ? 'opacity-75 backdrop-blur-sm' : 'opacity-100'}`}>
-        <div className="flex items-center justify-between gap-4 px-6 py-4 max-w-6xl mx-auto">
-            <img src="/public/logo.png" alt="Logo" className="w-30 h-30"/>
+    <section className={`bg-transparent fixed top-0 left-0 right-0 w-full h-20 transition-all duration-300 ${scrolled ? 'opacity-75 backdrop-blur-sm' : 'opacity-100'}`}>
+        <div className="flex items-center justify-between gap-4 px-6 h-full max-w-6xl mx-auto">
+            <img src="/public/logo.png" alt="Logo" className="h-14 w-auto"/>
 
             <nav className="flex items-center gap-4 text-lg font-semibold">
                 <NavLink 
